@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+<main class="principal">
+      <section class="conta">
+
+        <div class="conta__container">
+          <div class="checkout__titulos">
+            <p class="checkout__titulo">Criar Conta</p>
+          </div>
+
+          {% if erro == "preenchimento" %}
+          <p>Preencha os campos corretamente para criar uma conta.</p>
+          {% endif %}
+          {% if erro == "email_invalido" %}
+          <p>E-mail Invalido! Utilize um E-mail Válido.</p>
+          {% endif %}
+          {% if erro == "usuario_existente" %}
+          <p>Usuário ja cadastrado na loja!</p>
+          {% endif %}
+          {% if erro == "senhas_diferentes" %}
+          <p>As senhas digitadas não são iguais, tente novamente.</p>
+          {% endif %}
+
+          <form
+            class="conta__form"
+            action="{% url 'criar_conta' %}""
+            method="post"
+          >
+            {% csrf_token %}
+            <div class="conta__item conta__item--email">
+              <label for="email">E-mail</label>
+              <input name="email" type="email">
+            </div>
+
+            <div class="conta__item">
+              <label for="senha">Senha</label>
+              <input name="senha" type="password" />
+            </div>
+
+            <div class="conta__item">
+              <label for="confirmarsenha">Repetir Senha</label>
+              <input name="confirmarsenha" type="password" />
+            </div>
+
+            <button class="subtotal__botao" type="submit">
+              Criar Conta
+            </button>
+           <a href="{% url 'fazer_login' %}">Login</a>
+          </form>
+        </div>
+      </section>
+    </main>
+{% endblock %}

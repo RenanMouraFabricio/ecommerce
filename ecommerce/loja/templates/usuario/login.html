@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body%}
+
+<main class="principal">
+      <section class="conta">
+
+        <div class="conta__container">
+          <div class="checkout__titulos">
+            <p class="checkout__titulo">Login</p>
+          </div>
+
+          <form
+            class="conta__form"
+            action="{% url 'fazer_login' %}"
+            method="post"
+          >
+            {% csrf_token %}
+
+            <div class="conta__item">
+              <label for="email">E-mail</label>
+              <input name="email" type="email">
+            </div>
+
+            <div class="conta__item">
+              <label for="senha">Senha</label>
+              <input name="senha" type="password" />
+            </div>
+
+            <button class="subtotal__botao" type="submit">
+              Entrar
+            </button>
+            <a href="{% url 'criar_conta' %}">Criar Conta</a>
+            <a href="{% url 'password_reset' %}">Esqueci minha senha</a>
+          </form>
+        </div>
+      </section>
+    </main>
+{% endblock %}

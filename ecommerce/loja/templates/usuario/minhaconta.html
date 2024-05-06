@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body%}
+
+  <main class="principal">
+      <section class="conta">
+        {% if alterado %}
+        <p>Alterações realizadas com sucesso.</p>
+        {% endif %}
+
+        <div class="conta__container">
+          <div class="checkout__titulos">
+            <p class="checkout__titulo">Dados pessoais</p>
+          </div>
+
+          {% if erro == "e-mail_existente" %}
+          <p>o e-mail digitado já existe.</p>
+          {% endif %}
+
+          {% if erro == "formulario_invalido" %}
+          <p>Preencha os dados corretamente.</p>
+          {% endif %}
+
+          <form
+            class="conta__form"
+            action="{% url 'minha_conta' %}"
+            method="post"
+          >
+            {% csrf_token %}
+            <div class="conta__item conta__item--email">
+              <label for="nome">Nome Completo</label>
+              <input name="nome" type="text" {% if request.user.cliente.nome %} value="{{ request.user.cliente.nome }}" {% endif %}>
+            </div>
+
+            <div class="conta__item">
+              <label for="email">E-mail</label>
+              <input name="email" type="email" value="{{ request.user.email }}">
+            </div>
+
+            <div class="conta__item">
+              <label for="telefone">Telefone</label>
+              <input name="telefone" type="number" {% if request.user.cliente.telefone %} value="{{ request.user.cliente.telefone }}" {% endif %}>
+            </div>
+
+            <button class="subtotal__botao" type="submit">
+              Salvar alterações
+            </button>
+          </form>
+        </div>
+        <div class="conta__container">
+          <div class="checkout__titulos">
+            <p class="checkout__titulo">Alterar Senha</p>
+          </div>
+
+          {% if erro == "senha_incorreta" %}
+          <p>Senha incorreta.</p>
+          {% endif %}
+
+          {% if erro == "senhas_diferentes" %}
+          <p>As senhas não são iguais</p>
+          {% endif %}
+
+          <form
+            class="conta__form"
+            action="{% url 'minha_conta' %}"
+            method="post"
+          >
+            {% csrf_token %}
+            <div class="conta__item conta__item--email">
+              <label for="senha_atual">Senha Atual</label>
+              <input name="senha_atual" type="password" />
+            </div>
+
+            <div class="conta__item">
+              <label for="nova_senha">Nova Senha</label>
+              <input name="nova_senha" type="password" />
+            </div>
+
+            <div class="conta__item">
+              <label for="repetir_nova_senha">Repetir Nova Senha</label>
+              <input name="repetir_nova_senha" type="password" />
+            </div>
+
+            <button class="subtotal__botao" type="submit">
+              Alterar Senha
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+{% endblock %}
